@@ -1,9 +1,5 @@
 from sqlalchemy import create_engine, text
-
-QUERY_FLIGHT_BY_ID = "SELECT flights.*, airlines.airline, flights.ID as FLIGHT_ID, flights.DEPARTURE_DELAY as DELAY FROM flights JOIN airlines ON flights.airline = airlines.id WHERE flights.ID = :id"
-QUERY_FLIGHT_BY_DATE = "SELECT flights.*, airlines.airline, flights.ID as FLIGHT_ID, flights.DEPARTURE_DELAY as DELAY FROM flights JOIN airlines ON flights.airline = airlines.id WHERE YEAR = :year AND MONTH = :month AND DAY = :day"
-QUERY_DELAYED_FLIGHTS_BY_AIRLINE = "SELECT flights.*, airlines.airline, flights.ID as FLIGHT_ID, flights.DEPARTURE_DELAY as DELAY FROM flights JOIN airlines ON flights.airline = airlines.id WHERE airlines.AIRLINE = :airline"
-QUERY_DELAYED_FLIGHTS_BY_AIRPORT = "SELECT flights.*, airlines.airline, flights.ID as FLIGHT_ID, flights.DEPARTURE_DELAY as DELAY FROM flights JOIN airlines ON flights.airline = airlines.id WHERE flights.ORIGIN_AIRPORT = :airport"
+from flightdata_queries import *
 
 
 class FlightData:
@@ -74,3 +70,44 @@ class FlightData:
         Closes the connection to the database when the object is about to be destroyed
         """
         self._engine.dispose()
+
+
+class FlightDataVisuals(FlightData):
+    """
+    The FlightDataVisuals class extends the FlightData class to provide additional functionality
+    for visualizing flight data.
+    """
+
+    def __init__(self, db_uri):
+        """
+        Initialize a new engine using the given database URI
+        """
+        super().__init__(db_uri)
+
+    def get_percentage_of_delayed_flights_by_airline(self):
+        """
+        Retrieves the percentage of delayed flights for each airline.
+        """
+        return self._execute_query(QUERY_PERCENTAGE_OF_DELAYED_FLIGHTS_BY_AIRLINE, {})
+
+    def get_percentage_of_delayed_flights_per_hour(self):
+        """
+        Retrieves the percentage of delayed flights per hour of the day.
+        """
+        return self._execute_query(QUERY_PERCENTAGE_OF_DELAYED_FLIGHTS_PER_HOUR, {})
+
+    def get_delayed_flights_per_route(self):
+        """
+        Retrieves the percentage of delayed flights per route (origin and destination).
+        """
+        return self._execute_query(QUERY_DELAYED_FLIGHTS_BY_ROUTE, {})
+
+    def get_delayed_flights_per_route_with_coordinates(self):
+        """
+        Retrieves the percentage of delayed flights per route (origin and
+        destination) with geographical coordinates."""
+        return self._execute_query(QUERY_DELAYED_FLIGHTS_BY_ROUTE_WITH_COORD, {})
+
+    def __del__(self):
+        """Closes the connection to the database."""
+        super().__del__()

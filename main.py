@@ -1,6 +1,7 @@
 import data
 from datetime import datetime
 import sqlalchemy
+from plots import *
 
 SQLITE_URI = 'sqlite:///data/flights.sqlite3'
 IATA_LENGTH = 3
@@ -26,7 +27,7 @@ def delayed_flights_by_airport(data_manager):
     valid = False
     while not valid:
         airport_input = input("\u001b[38;5;99;1mEnter origin airport IATA code: \u001b[0m")
-        # Valide input
+        # Validate input
         if airport_input.isalpha() and len(airport_input) == IATA_LENGTH:
             valid = True
     results = data_manager.get_delayed_flights_by_airport(airport_input)
@@ -44,7 +45,7 @@ def flight_by_id(data_manager):
         try:
             id_input = int(input("\u001b[38;5;99;1mEnter flight ID: \u001b[0m"))
         except Exception as e:
-            print("Try again...")
+            print("\u001b[38;5;160;1mTry again...\u001b[0m")
         else:
             valid = True
     results = data_manager.get_flight_by_id(id_input)
@@ -53,7 +54,7 @@ def flight_by_id(data_manager):
 
 def flights_by_date(data_manager):
     """
-    Asks the user for date input (and loops until it's valid),
+    Asks the user for date input (and loops until it is valid),
     Then runs the query using the data object method "get_flights_by_date".
     When results are back, calls "print_results" to show them to on the screen.
     """
@@ -63,16 +64,48 @@ def flights_by_date(data_manager):
             date_input = input("\u001b[38;5;99;1mEnter date in DD/MM/YYYY format: \u001b[0m")
             date = datetime.strptime(date_input, '%d/%m/%Y')
         except ValueError as e:
-            print("Try again...", e)
+            print("\u001b[38;5;160;1mTry again...\u001b[0m", e)
         else:
             valid = True
     results = data_manager.get_flights_by_date(date.day, date.month, date.year)
     print_results(results)
 
 
+def plot_percentage_of_delayed_flights_per_airline(data_manager):
+    """
+    Fetch the data and plot the percentage of delayed flights by airline.
+    """
+    plot_data = data_manager.get_percentage_of_delayed_flights_by_airline()
+    plot_percentage_of_delayed_flights_by_airline(plot_data)
+
+
+def plot_percentage_of_delayed_flights_per_hour_of_day(data_manager):
+    """
+    Fetch the data and plot the percentage of delayed flights by airline.
+    """
+    plot_data = data_manager.get_percentage_of_delayed_flights_per_hour()
+    plot_percentage_of_delayed_flights_per_hour(plot_data)
+
+
+def plot_heatmap_of_delayed_flights_per_route(data_manager):
+    """
+    Fetch the data and plot the percentage of delayed flights by airline.
+    """
+    plot_data = data_manager.get_delayed_flights_per_route()
+    plot_heatmap_of_delayed_flights_by_route(plot_data)
+
+
+def plot_map_of_delayed_flights_per_route(data_manager):
+    """
+    Fetch the data and plot the percentage of delayed flights by airline.
+    """
+    plot_data = data_manager.get_delayed_flights_per_route_with_coordinates()
+    plot_routes_on_map(plot_data)
+
+
 def print_results(results):
     """
-    Get a list of flight results (List of dictionary-like objects from SQLAachemy).
+    Get a list of flight results (List of dictionary-like objects from SQLAlchemy).
     Even if there is one result, it should be provided in a list.
     Each object *has* to contain the columns:
     FLIGHT_ID, ORIGIN_AIRPORT, DESTINATION_AIRPORT, AIRLINE, and DELAY.
@@ -125,6 +158,7 @@ def show_menu_and_get_input():
             pass
         print("\u001b[38;5;160;1mTry again...\u001b[0m")
 
+
 """
 Function Dispatch Dictionary
 """
@@ -132,13 +166,22 @@ FUNCTIONS = { 1: (flight_by_id, "\u001b[38;5;214;1mShow flight by ID\u001b[0m"),
               2: (flights_by_date, "\u001b[38;5;214;1mShow flights by date\u001b[0m"),
               3: (delayed_flights_by_airline, "\u001b[38;5;214;1mDelayed flights by airline\u001b[0m"),
               4: (delayed_flights_by_airport, "\u001b[38;5;214;1mDelayed flights by origin airport\u001b[0m"),
-              5: (quit, "\u001b[38;5;160;1mExit\u001b[0m")
-             }
+              5: (plot_percentage_of_delayed_flights_per_airline,
+                  "\u001b[38;5;214;1mPlot percentage of delayed flights per airline\u001b[0m"),
+              6: (plot_percentage_of_delayed_flights_per_hour_of_day,
+                  "\u001b[38;5;214;1mPlot percentage of delayed flights per hour\u001b[0m"),
+              7: (plot_heatmap_of_delayed_flights_per_route,
+                  "\u001b[38;5;214;1mPlot heatmap of delayed flights by route\u001b[0m"),
+              8: (plot_map_of_delayed_flights_per_route,
+                  "\u001b[38;5;214;1mPlot USA map of delayed flights by route\u001b[0m"),
+              9: (quit, "\u001b[38;5;160;1mExit\u001b[0m")
+              }
 
 
 def main():
     # Create an instance of the Data Object using our SQLite URI
-    data_manager = data.FlightData(SQLITE_URI)
+    data_manager = data.FlightDataVisuals(SQLITE_URI)
+    print(type(data_manager))
 
     # The Main Menu loop
     while True:
