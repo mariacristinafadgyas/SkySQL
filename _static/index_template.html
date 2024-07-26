@@ -1,15 +1,39 @@
 <html>
 <head>
-    <title>My Movie App</title>
+    <title>Sky SQL</title>
     <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-<div class="list-movies-title">
-    <h1>__TEMPLATE_TITLE__</h1>
+<div class="list-plots">
+    <h1>SkySQL</h1>
+    <h2>Flight Data Analysis</h2>
 </div>
 <div>
-    <ol class="movie-grid">
-        __TEMPLATE_MOVIE_GRID__
+    <ol class="plots-grid">
+        <li>
+            <figure>
+                <img src="../delayed_flights_per_airline.png" alt="Percentage of delayed flights per airline" width="600" height="400"><br>
+                <figcaption>Percentage of delayed flights per airline</figcaption>
+            </figure>
+        </li>
+        <li>
+            <figure>
+                <img src="../percentage_of_delayed_flights_per_hour.png" alt="Percentage of delayed flights per hour" width="600" height="400"><br>
+                <figcaption>Percentage of delayed flights per hour</figcaption>
+            </figure>
+        </li>
+        <li>
+            <figure>
+                <img src="../percentage_of_delayed_flights_by_route.png" alt="Heatmap of the percentages of delayed flights per route" width="600" height="400"><br>
+                <figcaption>Heatmap of the percentage of delayed flights per route</figcaption>
+            </figure>
+        </li>
+        <li>
+            <figure>
+                <img src="../delayed_flights_routes_map.png" alt="Delayed flights routes map" width="600" height="400"><br>
+                <figcaption>USA map showing the percentage of delayed flights from departure to destination</figcaption>
+            </figure>
+        </li>
     </ol>
 </div>
 </body>

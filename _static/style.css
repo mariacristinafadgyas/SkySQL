@@ -1,52 +1,56 @@
 body {
-  background: #F5F5F0;
-  color: black;
-  font-family: Monaco;
+  background: #F5F5DC; /* Light olive background */
+  color: #556B2F; /* Dark olive text color */
+  font-family: Monaco, monospace;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center content horizontally */
 }
 
-.list-movies-title {
+.list-plots {
   padding: 10px 0;
-  background: #009B50;
+  background: #808000; /* Olive background for title */
   color: white;
   text-align: center;
-  font-size: 16pt;
+  width: 100%;
 }
 
-.movie-grid {
+.list-plots h1 {
+  margin: 0;
+  font-size: 36pt; /* Larger font size for h1 */
+  line-height: 1.2;
+}
+
+.list-plots h2 {
+  margin: 0;
+  font-size: 18pt; /* Smaller font size for h2 */
+  line-height: 1.2;
+  color: #F5F5DC; /* Lighter color for h2 to differentiate */
+}
+
+.plots-grid {
   list-style-type: none;
   padding: 0;
+  margin: 20px 0;
+  display: grid; /* Use grid layout */
+  grid-template-columns: repeat(2, 1fr); /* 2 columns */
+  gap: 20px; /* Space between items */
+  justify-items: center; /* Center items horizontally */
+}
+
+.plots-grid figure {
   margin: 0;
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-}
-
-.movie-grid li {
-  padding: 10px 15px;
-  text-align: left;
-}
-
-.movie {
-  width: 140px;
-}
-
-.movie-title,
-.movie-year {
-  font-size: 0.8em;
   text-align: center;
 }
 
-.movie-title {
+.plots-grid img {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  width: 100%;
+  height: auto;
+}
+
+.plots-grid figcaption {
   margin-top: 10px;
-}
-
-.movie-year {
-  color: #999;
-}
-
-
-.movie-poster {
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-    width: 128px;
-    height: 193px;
+  font-size: 14pt;
+  color: #556B2F; /* Dark olive color for captions */
 }
