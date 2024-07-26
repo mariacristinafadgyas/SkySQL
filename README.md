@@ -1,6 +1,7 @@
 # SkySQL - Flight Data Analysis
 
-This project provides various functionalities to analyze flight data, including displaying flights, plotting delays, and visualizing data on a map.
+This project provides various functionalities for analysing flight data, including displaying flights, displaying delays and visualising data on a map.
+It also includes a web-based interface for visualising flight data and a Flask API for accessing detailed flight information. The web interface displays various analyses and visualisations, while the API provides endpoints for querying flight details based on various criteria.
 
 ## Features
 
@@ -41,3 +42,46 @@ cd SkySQL
 ```
 pip install -r requirements.txt
 ```
+- Run the code
+```
+python main.py
+```
+- Run the Flask app
+```
+python app.py
+```
+## API Endpoints
+1. **Get Flight by Number**
+- Endpoint: **/api/flight_number**
+- Method: **GET**
+- Query Parameters:
+    - `flight_no`: flight number to query.
+- Response: Returns flight details for the given flight number.
+  
+2. **Get Flights by Date**
+- Endpoint: **/api/flights_by_date**
+- Method: **GET**
+- Query Parameters:
+    - `date`: date in `DD/MM/YYYY` format.
+- Response: Returns flights scheduled on the given date.
+
+3. **Get Delayed Flights by Airline**
+- Endpoint: **/api/delayed_flights_by_airline**
+- Method: **GET**
+- Query Parameters:
+    - `airline_name`: name of a particular airline.
+- Response: Returns delayed flights for the specified airline.
+
+4. **Get Delayed Flights by Airport**
+- Endpoint: **/api/delayed_flights_by_airport**
+- Method: **GET**
+- Query Parameters:
+    - `airport_code`: 3-letter [IATA](https://www.iata.org/en/publications/directories/code-search/) airport code.
+- Response: Returns delayed flights for the specified airport.
+
+## Testing with Postman
+To test the API endpoints using **Postman**:
+
+- Open Postman and create a new request.
+- Set the request type (**GET**) and enter the URL, for example: http://localhost:5000/api/delayed_flights_by_airport?airport_code=LAX
+- Send the request and check the response.
